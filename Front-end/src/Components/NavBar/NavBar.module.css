@@ -17,18 +17,20 @@ nav .navLink:hover {
 .navItem {
     text-decoration: none;
     margin-right: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
-.navItem:hover {
+.mainNavItem {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: bold;
+}
+.mainNavItem:hover {
     text-decoration: underline;
 }
-
-/* .mainNavItem {
-    text-decoration: none;
-    margin-right: 10px;
-    display: flex;
-    gap: 5px;
-} */
 
 .LogoImage {
     max-width: 100%;

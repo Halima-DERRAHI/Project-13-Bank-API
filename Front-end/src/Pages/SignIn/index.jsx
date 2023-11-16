@@ -1,14 +1,35 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { loginUserApi } from "../../Store/userActions";
 import styles from "./SignIn.module.css";
 
 function SignIn() {
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const token = await dispatch(loginUserApi({ email, password })).unwrap();
+    localStorage.setItem("jwtToken", token);
+  }
+
   return (
     <div>
       <main>
         <section className={styles.signInContent}>
-          <i className={styles.icon}></i>
+          <span className="fa fa-user-circle"></span>
           <h1>Sign In</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={styles.inputWrapper}>
               <label htmlFor="email">Email</label>
               <input
@@ -16,6 +37,7 @@ function SignIn() {
                 id="email"
                 name="unique-email"
                 className={styles.input}
+                onChange={handleEmailChange}
               />
             </div>
 
@@ -26,6 +48,7 @@ function SignIn() {
                 id="password"
                 name="unique-password"
                 className={styles.input}
+                onChange={handlePasswordChange}
               />
             </div>
             <div className={styles.rememberMe}>

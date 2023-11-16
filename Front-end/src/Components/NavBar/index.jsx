@@ -18,9 +18,9 @@ const Navbar = ({ showLogout, displayName }) => {
         />
       </NavLink>
       <div className={styles.navItem}>
+        <i className="fa fa-user-circle"></i>
         {showLogout && isLoggedIn ? (
           <div className={styles.mainNavItem}>
-            {/* <FontAwesomeIcon icon={faUserCircle} /> */}
               {displayName}
           </div>
         ) : (
