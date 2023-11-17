@@ -1,13 +1,17 @@
 import React from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUserApi } from "../../Store/userActions";
+import { loginUserToken } from "../../Store/userActions";
 import styles from "./SignIn.module.css";
 
 function SignIn() {
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -19,12 +23,29 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const token = await dispatch(loginUserApi({ email, password })).unwrap();
-    localStorage.setItem("jwtToken", token);
+    try {
+      const token = await dispatch(loginUserToken({ email, password })).unwrap();
+      console.log("Token:", token);
+      
+      if (token && token !== 'undefined') {
+        localStorage.setItem("jwtToken", token);
+        setLoggedIn(true);
+        navigate("/profile");
+
+        console.log("login OK");
+
+      } else {
+        navigate("/*");
+      }
+
+    } catch (error) {
+      navigate("/*");
+    }
   }
 
   return (
     <div>
+      {loggedIn && <Navigate to="/profile" />}
       <main>
         <section className={styles.signInContent}>
           <span className="fa fa-user-circle"></span>

@@ -10,6 +10,7 @@ export const loginUser = async (email, password) => {
       }
     );
     const jwtToken = response.data.body.token;
+    console.log("jwToken : ", jwtToken);
     return jwtToken;
     
   } catch (error) {
