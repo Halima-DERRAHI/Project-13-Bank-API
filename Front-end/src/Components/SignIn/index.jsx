@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUserToken } from "../../Store/userActions";
 import styles from "./SignIn.module.css";
 
-function SignIn() {
+function SignIn({ handleNewUserClick }) {
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ function SignIn() {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -46,7 +45,6 @@ function SignIn() {
   return (
     <div>
       {loggedIn && <Navigate to="/profile" />}
-      <main>
         <section className={styles.signInContent}>
           <span className="fa fa-user-circle"></span>
           <h1>Sign In</h1>
@@ -81,9 +79,14 @@ function SignIn() {
             <button type="submit" className={styles.signInButton}>
               Sign In
             </button>
-          </form>
+          </form><br/>
+          <p>
+              New user?{" "}
+              <span className={styles.link} onClick={handleNewUserClick}>
+                Sign Up
+              </span>
+            </p>
         </section>
-      </main>
     </div>
   );
 }

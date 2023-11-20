@@ -1,13 +1,4 @@
-main {
-    background-color: #12002b;
-    padding: 30px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.signInContent {
+ .signUpContent {
     box-sizing: border-box;
     background-color: white;
     width: 300px;
@@ -42,8 +33,8 @@ span {
 .rememberMeLabel {
     margin-left: 0.25rem;
 }
- 
-.signInButton {
+  
+.signUpButton {
     display: block;
     width: 100%;
     padding: 8px;
@@ -57,7 +48,13 @@ span {
     transition: transform 0.3s ease-in-out 0s;
 }
   
-.signInButton:hover {
+.signUpButton:hover {
     color: black;
     transform: scale(1.03);
 }  
+
+.link {
+    color: blue;
+    font-size: 16px;
+    cursor: pointer;
+}

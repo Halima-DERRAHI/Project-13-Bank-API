@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignIn from "../../Pages/SignIn/index";
+import Login from "../../Pages/Login";
 import Home from '../../Pages/Home';
 import Profile from '../../Pages/Profile';
 import ErrorPage from "../../Pages/ErrorPage/index";
@@ -14,7 +14,7 @@ function RouterIndex () {
             <NavBar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<SignIn />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
