@@ -2,6 +2,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: white;
     padding: 5px 20px;
 }
 
@@ -27,6 +28,7 @@ nav .navLink:hover {
     text-decoration: none;
     color: #2c3e50;
     font-weight: bold;
+    margin: 0 5px;
 }
 .mainNavItem:hover {
     text-decoration: underline;
@@ -40,6 +42,11 @@ nav .navLink:hover {
 .mainNavLink {
     display: flex;
     align-items: center;
+}
+
+.navIcon {
+    font-size: 1rem;
+    margin: 0 5px;
 }
 
 @media (max-width: 485px) {

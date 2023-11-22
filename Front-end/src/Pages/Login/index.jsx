@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import NavBar from "../../Components/NavBar"
 import SignIn from "../../Components/SignIn";
 import SignUp from "../../Components/SignUp";
 import "./Login.module.css"
@@ -15,13 +16,16 @@ function Login() {
   };
 
   return (
-    <main>
-      {showSignUp ? (
-        <SignUp handleUserClick={handleUserClick} />
-      ) : (
-        <SignIn handleNewUserClick={handleNewUserClick} />
-      )}
-    </main>
+    <div>
+      <NavBar />
+      <main>
+        {showSignUp ? (
+          <SignUp handleUserClick={handleUserClick} /> 
+          ) : (
+          <SignIn handleNewUserClick={handleNewUserClick} />
+        )}
+      </main>
+    </div>
   );
 }
 

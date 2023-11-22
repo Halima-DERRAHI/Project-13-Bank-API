@@ -94,7 +94,7 @@ function SignUp({ handleUserClick }) {
         </button>
       </form><br/>
       <p>
-        Already have an account? <br/><span className={styles.link} onClick={handleUserClick} >Sign In</span>
+        Already have an account? <span className={styles.link} onClick={handleUserClick} >Sign In</span>
       </p>
     </section>
   );

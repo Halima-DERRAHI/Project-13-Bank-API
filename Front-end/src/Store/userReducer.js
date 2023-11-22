@@ -6,6 +6,14 @@ const userSlice = createSlice({
     profile: null,
     isLoggedIn: false,
   },
+  reducers: {
+    logoutUser: (state) => {
+      state.profile = null;
+      state.isLoggedIn = false;
+    },
+  },
 });
+
+export const { logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

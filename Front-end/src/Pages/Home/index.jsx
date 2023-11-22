@@ -1,4 +1,5 @@
 import React from 'react';
+import NavBar from "../../Components/NavBar"
 import Feature from '../../Components/Feature';
 import iconChat from "../../assets/icon-chat.png";
 import iconMoney from "../../assets/icon-money.png";
@@ -8,6 +9,7 @@ import styles from './Home.module.css'
 function Home() {
     return(
         <div>
+            <NavBar />
             <div className={styles.hero}>
                 <div className={styles.heroContent}>
                     <h2 className={styles.srOnly}>Promoted Content</h2>

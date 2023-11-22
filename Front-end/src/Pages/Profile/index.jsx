@@ -1,8 +1,13 @@
 import React from 'react';
+import NavBar from "../../Components/NavBar"
+
 
 function Profile() {
     return (
-        <div>Hello!</div>
+        <div>
+            <NavBar />
+            <div>Hello!</div>
+        </div>
     )
 }
 
