@@ -1,4 +1,13 @@
- .signUpContent {
+main {
+    background-color: #12002b;
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+}
+
+.signUpContent {
     box-sizing: border-box;
     background-color: white;
     width: 300px;
@@ -6,7 +15,7 @@
     padding: 2rem;
 }
   
-span {
+.signIcon {
     font-size: 4rem;
 }
   
@@ -45,12 +54,10 @@ span {
     background-color: #00bc77;
     color: #fff;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out 0s;
 }
   
 .signUpButton:hover {
     color: black;
-    transform: scale(1.03);
 }  
 
 p {

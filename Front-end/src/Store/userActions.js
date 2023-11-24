@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser, getUserProfile } from "../Api/ApiService";
+import { loginUser, getUserProfile, updateUserProfileApi } from "../Api/ApiService";
 
 export const loginUserToken = createAsyncThunk(
   "user/loginUser",
@@ -16,3 +16,24 @@ export const loginUserProfile = createAsyncThunk(
     return userProfile;
   }
 );
+
+export const updateUserProfile = createAsyncThunk(
+  "user/updateUserProfile",
+  async ({ token, updatedProfile }) => {
+    try {
+      const data = await updateUserProfileApi(token, updatedProfile);
+      return data;
+    } catch (error) {
+      return console.log(error.message);
+    }
+  }
+);
+
+export const checkExistingUser = async (email) => {
+  try {
+    await loginUser(email, ""); 
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
