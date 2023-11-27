@@ -12,20 +12,24 @@ const Profile = () => {
   const profile = useSelector((state) => state.user.profile);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-
-    if (!token) {
-      navigate('/login');
-    } else {
+    const token = sessionStorage.getItem("jwtToken");
+  
+    if (token) {
       dispatch(loginUserProfile(token));
-      navigate('/profile');
+    } else {
+      navigate('/login');
     }
-  }, [navigate, dispatch]);
+  }, [dispatch, navigate]);  
 
   const { firstName, lastName } = profile || {};
   const [editMode, setEditMode] = useState(false);
   const [inputFirstName, setInputFirstName] = useState(firstName);
   const [inputLastName, setInputLastName] = useState(lastName);
+
+  useEffect(() => {
+    setInputFirstName(firstName);
+    setInputLastName(lastName);
+  }, [firstName, lastName]);
 
   const handleSave = () => {
     const jwtToken = localStorage.getItem("jwtToken");
@@ -34,8 +38,10 @@ const Profile = () => {
       lastName: inputLastName,
     };
 
-    dispatch(updateUserProfile({ token: jwtToken, updatedProfile }));
-    setEditMode(false);
+    dispatch(updateUserProfile({ token: jwtToken, updatedProfile })).then(() => {
+      dispatch(loginUserProfile(jwtToken));
+      setEditMode(false);
+    });
   };
 
   const handleCancel = () => {
@@ -50,12 +56,12 @@ const Profile = () => {
       <main>
         <header>
           <h1 className={styles.profileTitle}>
-            Welcome back <br /> {firstName} {lastName}!
-            <br />
+            Welcome back
           </h1>
         </header>
         {!editMode ? (
           <div>
+            <h1 className={styles.profileName}>{firstName} {lastName}!</h1>
             <button
               className={styles.editNameButton}
               onClick={() => setEditMode(true)}

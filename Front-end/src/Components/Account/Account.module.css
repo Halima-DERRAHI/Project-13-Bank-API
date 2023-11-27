@@ -33,30 +33,18 @@
 
 .description {
     margin: 0;
+    font-size: 1rem;
 }
 
 .viewButton {
     display: block;
-    width: 100%;
+    width: 200px;
     padding: 8px;
     font-size: 1.1rem;
     font-weight: bold;
     margin-top: 1rem;
     border-color: #00bc77;
     background-color: #00bc77;
-    color: #fff;
-}
-
-@media (min-width: 720px) {
-    .accountWrapper {
-        flex-direction: column;
-    }
-
-    .accountAmount {
-        font-size: 2rem;
-    }
-
-    .viewButton {
-        width: 200px;
-    }
+    color:white;
+    cursor: pointer;
 }

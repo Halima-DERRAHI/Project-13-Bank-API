@@ -1,5 +1,11 @@
 .profileTitle {
     color: white;
+    margin-top: 1.5rem;
+}
+
+.profileName {
+    color: white;
+    margin-bottom: 20px;
 }
 
 .editNameButton {
@@ -16,6 +22,7 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
+    margin-top: 35px;
 }
 
 /* input {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { createUser } from "../../Api/ApiService";
-// import { checkExistingUser } from "../../Store/userActions";
+import { checkExistingUser } from "../../Store/userActions";
 import NavBar from "../../Components/NavBar"
 import styles from "./SignUp.module.css";
 
@@ -10,6 +10,8 @@ function SignUp({ handleUserClick }) {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [formError, setFormError] = useState("");
+
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -18,38 +20,47 @@ function SignUp({ handleUserClick }) {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
+  
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
   };
-
+  
   const handleLastNameChange = (event) => {
     setLastName(event.target.value);
   };
+  
 
   const handleSignUp = async (event) => {
     event.preventDefault();
-    
+  
+    if (!(email && password && firstName && lastName)) {
+      setFormError("All fields are required.");
+      return;
+    }
+  
     try {
-      // const emailExists = await checkExistingUser(email);
-
-      // if (emailExists) {
-      //   console.error("Email already exists");
-      //   return;
-      // }
-
+      const emailExists = await checkExistingUser(email);
+  
+      if (emailExists) {
+        setFormError("Email already exists");
+        return;
+      }
+  
       const result = await createUser(email, password, firstName, lastName);
       console.log("Account created:", result);
-
+  
       setEmail("");
       setPassword("");
       setFirstName("");
       setLastName("");
-
+      setFormError("");
+  
     } catch (error) {
       console.error("Error creating account:", error);
     }
   };
+  
+  
 
   return (
     <div>
@@ -107,7 +118,8 @@ function SignUp({ handleUserClick }) {
                 onChange={handlePasswordChange}
               />
             </div>
-            
+            {formError && <p className={styles.errorMessage}>{formError}</p>}
+
             <button type="submit" className={styles.signUpButton}>
               Sign Up
             </button>

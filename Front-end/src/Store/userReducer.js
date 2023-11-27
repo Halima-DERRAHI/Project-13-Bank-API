@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUserProfile } from "../Store/userActions"
+import { loginUserProfile } from "./userActions";
 
 const userSlice = createSlice({
   name: "user",
@@ -9,18 +9,23 @@ const userSlice = createSlice({
   },
   reducers: {
     logoutUser: (state) => {
-      state.profile = null;
-      state.isLoggedIn = false;
+      return {
+        ...state,
+        profile: null,
+        isLoggedIn: false,
+      };
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(loginUserProfile.fulfilled, (state, action) => {
-        state.profile = action.payload;
-      });
+    builder.addCase(loginUserProfile.fulfilled, (state, { payload }) => {
+      return {
+        ...state,
+        profile: payload,
+        isLoggedIn: true,
+      };
+    });
   },
 });
 
 export const { logoutUser } = userSlice.actions;
-
 export default userSlice.reducer;

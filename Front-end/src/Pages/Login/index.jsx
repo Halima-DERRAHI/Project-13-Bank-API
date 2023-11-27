@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUserToken, loginUserProfile } from "../../Store/userActions";
 import NavBar from "../../Components/NavBar"
 import styles from "./SignIn.module.css";
@@ -9,9 +9,11 @@ function SignIn({ handleNewUserClick }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+  console.log("login:" + isLoggedIn);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,9 +28,7 @@ function SignIn({ handleNewUserClick }) {
       setPassword(rememberedPassword);
       setRememberMe(true);
     }
-    if (localStorage.getItem("jwtToken")) {
-      setLoggedIn(true);
-    }
+
   }, []);
 
   const handleEmailChange = (event) => {
@@ -62,7 +62,7 @@ function SignIn({ handleNewUserClick }) {
       const token = await dispatch(loginUserToken({ email, password })).unwrap();
 
       if (token && token !== 'undefined') {
-        localStorage.setItem("jwtToken", token);
+        sessionStorage.setItem("jwtToken", token);
         await dispatch(loginUserProfile(token)).unwrap();
         navigate("/profile");
       } else {
@@ -88,7 +88,7 @@ function SignIn({ handleNewUserClick }) {
       <NavBar/>
       <main>
         <section>
-          {loggedIn && <Navigate to="/profile" />}
+          { isLoggedIn && <Navigate to="/profile" />}
           <section className={styles.signInContent}>
             <i className={`fa fa-user-circle ${styles.signIcon}`}></i>
             <h1>Sign In</h1>

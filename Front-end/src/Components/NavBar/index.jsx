@@ -8,19 +8,18 @@ import styles from "./NavBar.module.css";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("jwtToken") !== null;
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const profile = useSelector((state) => state.user.profile);
   const firstName = profile ? profile.firstName : '';
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    localStorage.removeItem("jwtToken");
+    sessionStorage.removeItem("jwtToken");
     navigate("/");
   };
-  
-  console.log(isLoggedIn);
-  console.log(firstName);
 
+  console.log("NavBar login :" + isLoggedIn);
+  
   return (
     <nav className={styles.nav}>
       <NavLink to="/" className={styles.mainNavLink}>
