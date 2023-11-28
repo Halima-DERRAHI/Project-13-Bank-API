@@ -8,11 +8,10 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [formError, setformError] = useState("");
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
-  console.log("login:" + isLoggedIn);
+  console.log("Login:" + isLoggedIn);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,12 +30,12 @@ function SignIn() {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setEmailError("");
+    setformError("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setPasswordError("");
+    setformError("");
   };
 
   const handleRememberMeChange = (event) => {
@@ -46,13 +45,8 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!email) {
-      setEmailError("Email is required");
-      return;
-    }
-
-    if (!password) {
-      setPasswordError("Password is required");
+    if (!email || !password) {
+      setformError("Email or password is required");
       return;
     }
 
@@ -64,7 +58,7 @@ function SignIn() {
         await dispatch(loginUserProfile(token)).unwrap();
         navigate("/profile");
       } else {
-        setPasswordError("Email or password is incorrect");
+        setformError("Email or password is incorrect");
       }
 
       if (rememberMe) {
@@ -98,8 +92,7 @@ function SignIn() {
                 className={styles.input}
                 value={email}
                 onChange={handleEmailChange}
-              />
-              {emailError && <p className={styles.errorMessage}>{emailError}</p>}
+              />            
             </div>
 
             <div className={styles.inputWrapper}>
@@ -112,7 +105,7 @@ function SignIn() {
                 value={password}
                 onChange={handlePasswordChange}
               />
-              {passwordError && <p className={styles.errorMessage}>{passwordError}</p>}
+              {formError && <p className={styles.errorMessage}>{formError}</p>}
             </div>
             <div className={styles.rememberMe}>
               <input 
