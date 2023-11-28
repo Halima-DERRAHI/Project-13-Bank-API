@@ -49,18 +49,12 @@ nav .navLink:hover {
     margin: 0 5px;
 }
 
-@media (max-width: 485px) {
-    .navItem {
-        flex-direction: row;
-    }
-}
-
 @media (max-width: 520px) {
     nav {
         padding: 15px 20px;
     }
 
     .LogoImage {
-            width: 200px;
+        width: 200px;
     }
 }  
