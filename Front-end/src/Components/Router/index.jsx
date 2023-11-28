@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NavBar from "../NavBar";
 import Login from "../../Pages/Login";
 import SignUp from '../../Pages/SignUp';
 import Home from '../../Pages/Home';
@@ -11,6 +12,7 @@ import Footer from "../Footer"
 function RouterIndex () {
     return (
         <Router>
+            <NavBar/>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

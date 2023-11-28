@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUserProfile, updateUserProfile } from "../../Store/userActions";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../Components/NavBar";
 import Account from "../../Components/Account"
 import styles from "./Profile.module.css";
 
@@ -16,8 +15,10 @@ const Profile = () => {
   
     if (token) {
       dispatch(loginUserProfile(token));
+      console.log("profile: true");
     } else {
       navigate('/login');
+      console.log("profile: false");
     }
   }, [dispatch, navigate]);  
 
@@ -32,7 +33,7 @@ const Profile = () => {
   }, [firstName, lastName]);
 
   const handleSave = () => {
-    const jwtToken = localStorage.getItem("jwtToken");
+    const jwtToken = sessionStorage.getItem("jwtToken");
     const updatedProfile = {
       firstName: inputFirstName,
       lastName: inputLastName,
@@ -52,7 +53,6 @@ const Profile = () => {
 
   return (
     <div>
-      <NavBar/>
       <main>
         <header>
           <h1 className={styles.profileTitle}>
@@ -74,13 +74,11 @@ const Profile = () => {
             <div className={styles.inputContainer}>
               <input
                 type="text"
-                // placeholder={inputFirstName}
                 value={inputFirstName}
                 onChange={(e) => setInputFirstName(e.target.value)}
               />
               <input
                 type="text"
-                // placeholder={inputLastName}
                 value={inputLastName}
                 onChange={(e) => setInputLastName(e.target.value)}
               />

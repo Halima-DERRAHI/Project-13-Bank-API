@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserToken, loginUserProfile } from "../../Store/userActions";
-import NavBar from "../../Components/NavBar"
 import styles from "./SignIn.module.css";
 
 function SignIn({ handleNewUserClick }) {
@@ -85,7 +84,6 @@ function SignIn({ handleNewUserClick }) {
 
   return (
     <div>
-      <NavBar/>
       <main>
         <section>
           { isLoggedIn && <Navigate to="/profile" />}

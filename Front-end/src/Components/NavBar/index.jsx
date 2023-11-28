@@ -18,7 +18,7 @@ function Navbar() {
     navigate("/");
   };
 
-  console.log("NavBar login :" + isLoggedIn);
+  console.log("NavBar :" + isLoggedIn);
   
   return (
     <nav className={styles.nav}>
