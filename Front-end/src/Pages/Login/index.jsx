@@ -11,8 +11,6 @@ function SignIn() {
   const [formError, setformError] = useState("");
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
-  console.log("Login:" + isLoggedIn);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

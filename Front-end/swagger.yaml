@@ -133,6 +133,12 @@ definitions:
         type: number
         format: float
         description: Solde du compte après la transaction
+      category:
+        type: string
+        description: Catégorie de la transaction
+      notes:
+        type: string
+        description: Notes de la transaction
     required:
       - date
       - description

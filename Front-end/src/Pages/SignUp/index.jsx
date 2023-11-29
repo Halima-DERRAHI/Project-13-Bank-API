@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { createUser } from "../../Api/ApiService";
-import { checkExistingUser } from "../../Store/userActions";
 import styles from "./SignUp.module.css";
 
 function SignUp() {
@@ -10,24 +9,27 @@ function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [formError, setFormError] = useState("");
-
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    setFormError("");
   };
   
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setFormError("");
   };
   
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
+    setFormError("");
   };
   
   const handleLastNameChange = (event) => {
     setLastName(event.target.value);
+    setFormError("");
   };
-  
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -38,15 +40,10 @@ function SignUp() {
     }
   
     try {
-      const emailExists = await checkExistingUser(email);
-  
-      if (emailExists) {
-        setFormError("Email already exists");
-        return;
-      }
-  
       const result = await createUser(email, password, firstName, lastName);
       console.log("Account created:", result);
+
+      setSignUpSuccess(true);
   
       setEmail("");
       setPassword("");
@@ -59,8 +56,6 @@ function SignUp() {
     }
   };
   
-  
-
   return (
     <main>
       <section className={styles.signUpContent}>
@@ -116,6 +111,10 @@ function SignUp() {
             />
           </div>
           {formError && <p className={styles.errorMessage}>{formError}</p>}
+
+          {signUpSuccess &&
+          <p className={styles.successMessage}>Sign up successful! <br/> You can now sign in.</p>
+          }
 
           <button type="submit" className={styles.signUpButton}>
             Sign Up

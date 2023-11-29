@@ -28,12 +28,3 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
-
-export const checkExistingUser = async (email) => {
-  try {
-    await loginUser(email, ""); 
-    return true;
-  } catch (error) {
-    return false;
-  }
-};

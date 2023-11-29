@@ -17,8 +17,6 @@ function Navbar() {
     sessionStorage.removeItem("jwtToken");
     navigate("/");
   };
-
-  console.log("NavBar :" + isLoggedIn);
   
   return (
     <nav className={styles.nav}>

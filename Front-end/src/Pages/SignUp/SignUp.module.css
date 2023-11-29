@@ -71,3 +71,7 @@ p {
 .errorMessage {
     color: red;
 }
+
+.successMessage {
+    color: green;
+}

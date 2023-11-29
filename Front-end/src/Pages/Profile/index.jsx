@@ -15,10 +15,8 @@ const Profile = () => {
   
     if (token) {
       dispatch(loginUserProfile(token));
-      console.log("profile: true");
     } else {
       navigate('/login');
-      console.log("profile: false");
     }
   }, [dispatch, navigate]);  
 
