@@ -14,8 +14,8 @@ paths:
         - in: query
           name: month
           type: string
-          description: The month for which to retrieve the transactions (the current month)
-          default: "2023-04"
+          description: The month for which to retrieve the transactions (use the current month for most recent transactions)
+          default: "2023-12"
           required: true
       responses:
         200:
