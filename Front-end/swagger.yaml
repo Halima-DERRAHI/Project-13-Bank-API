@@ -7,26 +7,26 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /user/transactions:
+  /user/transactionSummary:
     get:
       summary: Retrieve all transactions for the current month
       parameters:
         - in: query
           name: month
           type: string
-          description: The month for which to retrieve the transactions (use the current month for most recent transactions)
-          default: "2023-12"
-          required: true
+          description: The month for which to retrieve the transactions (use the current month for most recent transactions format YYYY-MM)
+          default: current month
       responses:
         200:
           description: List of transactions for the specified month
           schema:
             type: array
             items:
-              $ref: "#/definitions/Transaction"
+              $ref: "#/definitions/TransactionSummary"
         400:
           description: Invalid request
-
+          
+  /user/transaction:
     post:
       summary: Add a new transaction
       parameters:
@@ -46,46 +46,49 @@ paths:
         400:
           description: Invalid request (incorrect transaction data)
 
-  /user/transactions/{transactionId}:
+  /user/transactions:
     get:
-      summary: Retrieve details of a specific transaction
+      summary: Retrieve list of transactions
       parameters:
-        - in: path
-          name: transactionId
+        - in: query
+          name: accountType
           type: string
           required: true
-          description: Transaction identifier
+          description: Type du compte
         - in: query
           name: month
           type: string
           required: true
-          description: The month for which to retrieve the transaction
+          description: The month for which to retrieve the transactions (use the current month for most recent transactions format YYYY-MM)
+          default: current month
       responses:
         200:
-          description: Transaction details
+          description: Transaction list
           schema:
-            $ref: "#/definitions/Transaction"
+            type: array
+            items: 
+              $ref: "#/definitions/Transaction"
         404:
           description: Transaction not found
 
     put:
       summary: Modify an existing transaction
       parameters:
-        - in: path
-          name: transactionId
+        - in: query
+          name: id
           type: string
           required: true
           description: Transaction identifier
         - in: query
-          name: month
+          name: category
           type: string
           required: true
-          description: The month for which to modify the transaction
-        - in: body
-          name: body
-          schema:
-            $ref: "#/definitions/Transaction"
+          description: The category of the transaction
+        - in: query
+          name: notes
+          type: string
           required: true
+          description: Notes of transaction
       responses:
         200:
           description: Transaction successfully updated
@@ -94,37 +97,27 @@ paths:
         404:
           description: Transaction not found
 
-    delete:
-      summary: Delete an existing transaction
-      parameters:
-        - in: path
-          name: transactionId
-          type: string
-          required: true
-          description: Transaction identifier
-      responses:
-        200:
-          description: Transaction successfully deleted
-        404:
-          description: Transaction not found
-
 definitions:
+  TransactionSummary:
+    type: object
+    properties:
+      accountType:
+        type: string
+        description: Type du compte
+      balanceTotal:
+        type: number
+        format: float
+        description: Solde du compte après la transaction
+        
   Transaction:
     type: object
     properties:
       id:
+        type: number
+        description: Identifiant de la transaction
+      accountType:
         type: string
-        description: Identifiant unique de la transaction
-      month:
-        type: string
-        description: The month of the transaction
-      date:
-        type: string
-        format: date
-        description: Date de la transaction
-      description:
-        type: string
-        description: Description de la transaction
+        description: Type du compte
       amount:
         type: number
         format: float
@@ -133,6 +126,16 @@ definitions:
         type: number
         format: float
         description: Solde du compte après la transaction
+      date:
+        type: string
+        format: date
+        description: Date de la transaction
+      description:
+        type: string
+        description: Description de la transaction
+      transactionType:
+        type: string
+        description: Type de la transaction
       category:
         type: string
         description: Catégorie de la transaction
@@ -140,55 +143,7 @@ definitions:
         type: string
         description: Notes de la transaction
     required:
+      - accountType
       - date
-      - description
       - amount
-      - balance
-  User:
-    properties:
-      email:
-        type: string
-        description: user email
-      password:
-        type: string
-        description: user password
-      firstName:
-        type: string
-        description: user first name
-      lastName:
-        type: string
-        description: user last name
-  Login:
-    properties:
-      email:
-        type: string
-        description: user email
-      password:
-        type: string
-        description: user password
-  ApiResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-      body:
-        type: object
-        properties:
-          id:
-            type: string
-          email:
-            type: string
-  LoginResponse:
-    type: object
-    properties:
-      token:
-        type: string
-  UserProfile:
-    type: object
-    properties:
-      firstName:
-        type: string
-      lastName:
-        type: string
+      - transactionType

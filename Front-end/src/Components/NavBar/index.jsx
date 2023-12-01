@@ -18,6 +18,8 @@ function Navbar() {
     navigate("/");
   };
   
+  console.log("NavBar :" + isLoggedIn);
+
   return (
     <nav className={styles.nav}>
       <NavLink to="/" className={styles.mainNavLink}>
