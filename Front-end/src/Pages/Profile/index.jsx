@@ -8,7 +8,8 @@ import styles from "./Profile.module.css";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const profile = useSelector((state) => state.user.profile);
+
+  // Check for JWT token in session storage
 
   useEffect(() => {
     const token = sessionStorage.getItem("jwtToken");
@@ -20,16 +21,24 @@ const Profile = () => {
     }
   }, [dispatch, navigate]);  
 
+  // Retrieve user profile from Redux store
+
+  const profile = useSelector((state) => state.user.profile);
+
   const { firstName, lastName } = profile || {};
   const [editMode, setEditMode] = useState(false);
   const [inputFirstName, setInputFirstName] = useState(firstName);
   const [inputLastName, setInputLastName] = useState(lastName);
+
+  // Sync input field values with profile when it updates
 
   useEffect(() => {
     setInputFirstName(firstName);
     setInputLastName(lastName);
   }, [firstName, lastName]);
 
+  // Save the profile changes
+  
   const handleSave = () => {
     const jwtToken = sessionStorage.getItem("jwtToken");
     const updatedProfile = {
@@ -37,9 +46,13 @@ const Profile = () => {
       lastName: inputLastName,
     };
 
-    dispatch(updateUserProfile({ token: jwtToken, updatedProfile })).then(() => {
+    dispatch(updateUserProfile({ token: jwtToken, updatedProfile }))
+    .then(() => {
       dispatch(loginUserProfile(jwtToken));
       setEditMode(false);
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
     });
   };
 

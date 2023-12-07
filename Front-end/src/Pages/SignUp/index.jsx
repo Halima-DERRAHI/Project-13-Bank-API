@@ -43,8 +43,8 @@ function SignUp() {
       const result = await createUser(email, password, firstName, lastName);
       console.log("Account created:", result);
 
+      // Set sign-up success and reset form fields and errors
       setSignUpSuccess(true);
-  
       setEmail("");
       setPassword("");
       setFirstName("");

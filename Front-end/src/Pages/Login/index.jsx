@@ -14,6 +14,8 @@ function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Handle remembering login information
+
   useEffect(() => {
     const rememberMeValue = localStorage.getItem("rememberMe");
     const rememberedEmail = localStorage.getItem("rememberedEmail");
@@ -25,6 +27,8 @@ function SignIn() {
       setRememberMe(true);
     }
   }, []);
+
+  // Change handlers for form fields
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -39,6 +43,8 @@ function SignIn() {
   const handleRememberMeChange = (event) => {
     setRememberMe(event.target.checked);
   };
+
+  // Handler to submit the form
 
   const handleSubmit = async (event) => {
     event.preventDefault();
