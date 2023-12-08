@@ -47,6 +47,15 @@ input {
     align-items: center;
     justify-content: center;
     gap: 20px;
-    margin-top: 20px;
     margin-bottom: 13px;
 }
+
+.errorMessage {
+    color: red;
+    font-size: 12px;
+    margin: 2px 0;
+}
+.errorMessagePlace {
+    height: 1.3em;
+    color: transparent;
+  }

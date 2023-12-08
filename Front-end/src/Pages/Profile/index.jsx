@@ -29,37 +29,50 @@ const Profile = () => {
   const [editMode, setEditMode] = useState(false);
   const [inputFirstName, setInputFirstName] = useState(firstName);
   const [inputLastName, setInputLastName] = useState(lastName);
+  const [error, setError] = useState('');
 
   // Sync input field values with profile when it updates
 
   useEffect(() => {
     setInputFirstName(firstName);
     setInputLastName(lastName);
+    setError('');
   }, [firstName, lastName]);
 
   // Save the profile changes
   
   const handleSave = () => {
     const jwtToken = sessionStorage.getItem("jwtToken");
-    const updatedProfile = {
-      firstName: inputFirstName,
-      lastName: inputLastName,
-    };
+    
+    // Check if the fields are not empty before updating
+    if (inputFirstName.trim() !== '' && inputLastName.trim() !== '') {
+      const updatedProfile = {
+        firstName: inputFirstName,
+        lastName: inputLastName,
+      };
 
-    dispatch(updateUserProfile({ token: jwtToken, updatedProfile }))
-    .then(() => {
-      dispatch(loginUserProfile(jwtToken));
-      setEditMode(false);
-    })
-    .catch((error) => {
-      console.error("Error updating profile:", error);
-    });
+      dispatch(updateUserProfile({ token: jwtToken, updatedProfile }))
+        .then(() => {
+          dispatch(loginUserProfile(jwtToken));
+          setEditMode(false);
+        })
+        .catch((error) => {
+          console.error("Error updating profile:", error);
+        });
+    } else {
+      setError('Please fill in all fields to update your profile.');
+    }
   };
 
   const handleCancel = () => {
     setInputFirstName(firstName);
     setInputLastName(lastName);
     setEditMode(false);
+    setError('');
+  };
+
+  const handleInputChange = () => {
+    setError('');
   };
 
   return (
@@ -86,14 +99,22 @@ const Profile = () => {
               <input
                 type="text"
                 value={inputFirstName}
-                onChange={(e) => setInputFirstName(e.target.value)}
+                onChange={(e) => {
+                  setInputFirstName(e.target.value);
+                  handleInputChange();
+                }}
               />
               <input
                 type="text"
                 value={inputLastName}
-                onChange={(e) => setInputLastName(e.target.value)}
+                onChange={(e) => {
+                  setInputLastName(e.target.value);
+                  handleInputChange();
+                }}
               />
             </div>
+            {error && <p className={styles.errorMessage}>{error}</p>}
+            {!error && <div className={styles.errorMessagePlace}></div>}
             <div className={styles.buttonContainer}>
               <button onClick={handleSave} className={styles.bouton}>Save</button>
               <button onClick={handleCancel} className={styles.bouton}>Cancel</button>
