@@ -40,19 +40,17 @@ function SignUp() {
     }
   
     try {
-      const result = await createUser(email, password, firstName, lastName);
-      console.log("Account created:", result);
+      setFormError("");
+      await createUser(email, password, firstName, lastName);
 
-      // Set sign-up success and reset form fields and errors
       setSignUpSuccess(true);
       setEmail("");
       setPassword("");
       setFirstName("");
       setLastName("");
-      setFormError("");
-  
+      
     } catch (error) {
-      console.error("Error creating account:", error);
+      setFormError("This user already exists");
     }
   };
   
