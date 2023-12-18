@@ -43,9 +43,12 @@ const Profile = () => {
   
   const handleSave = () => {
     const jwtToken = sessionStorage.getItem("jwtToken");
-    
-    // Check if the fields are not empty before updating
-    if (inputFirstName.trim() !== '' && inputLastName.trim() !== '') {
+    const nameRegex = /^[A-Za-z]{2,}$/;
+
+    // Check if the fields are not empty and contain at least 2 letters before updating
+    if (inputFirstName.trim() !== '' && inputLastName.trim() !== '' && 
+        nameRegex.test(inputFirstName) && nameRegex.test(inputLastName)) {
+
       const updatedProfile = {
         firstName: inputFirstName,
         lastName: inputLastName,
@@ -60,7 +63,7 @@ const Profile = () => {
           console.error("Error updating profile:", error);
         });
     } else {
-      setError('Please fill in all fields to update your profile.');
+      setError('Please provide valid names (at least 2 letters) for both fields.');
     }
   };
 
