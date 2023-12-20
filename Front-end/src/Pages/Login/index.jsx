@@ -14,7 +14,6 @@ function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   // Handle remembering login information
 
   useEffect(() => {
@@ -53,7 +52,6 @@ function SignIn() {
       return;
     }
 
- 
     try {
       const token = await dispatch(loginUserToken({ email, password })).unwrap();
 
