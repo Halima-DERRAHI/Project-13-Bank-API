@@ -25,7 +25,6 @@ function SignIn() {
     }
   }, [navigate]);
 
-
   // Change handlers for form fields
 
   const handleEmailChange = (event) => {
