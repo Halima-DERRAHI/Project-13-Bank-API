@@ -14,19 +14,18 @@ function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   // Handle remembering login information
 
   useEffect(() => {
     const rememberMeValue = localStorage.getItem("rememberMe");
-    const rememberedEmail = localStorage.getItem("rememberedEmail");
-    const rememberedPassword = localStorage.getItem("rememberedPassword");
-
-    if (rememberMeValue === "true" && rememberedEmail && rememberedPassword) {
-      setEmail(rememberedEmail);
-      setPassword(rememberedPassword);
-      setRememberMe(true);
+    const token = localStorage.getItem("jwtToken");
+    
+    if (rememberMeValue === "true" && token) {
+      navigate("/profile");
     }
-  }, []);
+  }, [navigate]);
+
 
   // Change handlers for form fields
 
@@ -54,25 +53,23 @@ function SignIn() {
       return;
     }
 
+ 
     try {
       const token = await dispatch(loginUserToken({ email, password })).unwrap();
 
       if (token && token !== 'undefined') {
-        sessionStorage.setItem("jwtToken", token);
+        localStorage.setItem("jwtToken", token);
+
+        if (rememberMe) {
+          localStorage.setItem("rememberMe", true);
+        } else {
+          localStorage.removeItem("rememberMe");
+        }
+
         await dispatch(loginUserProfile(token)).unwrap();
         navigate("/profile");
       } else {
         setformError("Email or password is incorrect");
-      }
-
-      if (rememberMe) {
-        localStorage.setItem("rememberMe", true);
-        localStorage.setItem("rememberedEmail", email);
-        localStorage.setItem("rememberedPassword", password);
-      } else {
-        localStorage.removeItem("rememberMe");
-        localStorage.removeItem("rememberedEmail");
-        localStorage.removeItem("rememberedPassword");
       }
     } catch (error) {
       navigate("/*");

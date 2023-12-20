@@ -14,7 +14,7 @@ function Navbar() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    sessionStorage.removeItem("jwtToken");
+    localStorage.removeItem("jwtToken");
     navigate("/");
   };
 

@@ -6,16 +6,26 @@ host: localhost:3001
 basePath: /api/v1
 schemes:
   - http
+tags:
+  - name: Transaction
+    description: User transactions
 paths:
-  /user/transactionSummary:
+  /transactions:
     get:
+      tags:
+        - Transaction
       summary: Retrieve all transactions for the current month
       parameters:
         - in: query
           name: month
           type: string
-          description: The month for which to retrieve the transactions (use the current month for most recent transactions format YYYY-MM)
+          description: The month for which to retrieve the transactions (use the current month for most recent transactions format MM)
           default: current month
+        - in: header
+          name: Authorization
+          type: string
+          description: JWT token for authentication
+          required: true
       responses:
         200:
           description: List of transactions for the specified month
@@ -26,8 +36,10 @@ paths:
         400:
           description: Invalid request
           
-  /user/transaction:
+  /transaction:
     post:
+      tags:
+        - Transaction
       summary: Add a new transaction
       parameters:
         - in: header
@@ -46,9 +58,10 @@ paths:
         400:
           description: Invalid request (incorrect transaction data)
 
-  /user/transactions:
     get:
-      summary: Retrieve list of transactions
+      tags:
+        - Transaction
+      summary: Retrieve transaction
       parameters:
         - in: query
           name: accountType
@@ -59,41 +72,76 @@ paths:
           name: month
           type: string
           required: true
-          description: The month for which to retrieve the transactions (use the current month for most recent transactions format YYYY-MM)
+          description: The month for which to retrieve the transactions (use the current month for most recent transactions format MM)
           default: current month
+        - in: header
+          name: Authorization
+          type: string
+          description: JWT token for authentication
+          required: true
       responses:
         200:
-          description: Transaction list
+          description: Transaction
           schema:
             type: array
             items: 
               $ref: "#/definitions/Transaction"
         404:
           description: Transaction not found
-
-    put:
-      summary: Modify an existing transaction
+          
+  /transaction/{id}:
+    patch:
+      tags:
+        - Transaction
+      summary: Modify an existing transaction (selectively)
       parameters:
-        - in: query
+        - in: path
           name: id
           type: string
           required: true
           description: Transaction identifier
-        - in: query
-          name: category
-          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/PatchTransaction"
           required: true
-          description: The category of the transaction
-        - in: query
-          name: notes
+        - in: header
+          name: Authorization
           type: string
+          description: JWT token for authentication
           required: true
-          description: Notes of transaction
       responses:
         200:
           description: Transaction successfully updated
         400:
           description: Invalid request (incorrect transaction data)
+        401:
+          description: Unauthorized - User not authenticated
+        403:
+          description: Forbidden - User doesn't have permission to perform this action
+        404:
+          description: Transaction not found
+        500:
+          description: Internal server error
+
+    delete:
+      tags:
+        - Transaction
+      summary: Delete a transaction
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: JWT token for authentication
+          required: true
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: Transaction identifier to be deleted
+      responses:
+        200:
+          description: Transaction information deleted successfully
         404:
           description: Transaction not found
 
@@ -147,3 +195,14 @@ definitions:
       - date
       - amount
       - transactionType
+
+  PatchTransaction:
+    type: object
+    properties:
+      category:
+        type: string
+        description: The category of the transaction to be updated (optional)
+      notes:
+        type: string
+        description: Notes of transaction to be updated (optional)
+    additionalProperties: false

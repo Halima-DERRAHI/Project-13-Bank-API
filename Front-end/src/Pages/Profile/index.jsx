@@ -9,10 +9,10 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Check for JWT token in session storage
+  // Check for JWT token in local storage
 
   useEffect(() => {
-    const token = sessionStorage.getItem("jwtToken");
+    const token = localStorage.getItem("jwtToken");
   
     if (token) {
       dispatch(loginUserProfile(token));
@@ -42,7 +42,7 @@ const Profile = () => {
   // Save the profile changes
   
   const handleSave = () => {
-    const jwtToken = sessionStorage.getItem("jwtToken");
+    const jwtToken = localStorage.getItem("jwtToken");
     const nameRegex = /^[A-Za-z]{2,}$/;
 
     // Check if the fields are not empty and contain at least 2 letters before updating
