@@ -32,11 +32,14 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/TransactionSummary"
+              $ref: "#/definitions/Transactions"
         400:
           description: Invalid request
+        401:
+          description: Unauthorized - User not authenticated
+        500:
+          description: Internal server error
           
-  /transaction:
     post:
       tags:
         - Transaction
@@ -57,23 +60,24 @@ paths:
           description: Transaction successfully created
         400:
           description: Invalid request (incorrect transaction data)
+        401:
+          description: Unauthorized - User not authenticated
+        500:
+          description: Internal server error
+
+  /transactions/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: Transaction identifier
 
     get:
       tags:
         - Transaction
-      summary: Retrieve transaction
+      summary: Retrieve a specific transaction
       parameters:
-        - in: query
-          name: accountType
-          type: string
-          required: true
-          description: Type du compte
-        - in: query
-          name: month
-          type: string
-          required: true
-          description: The month for which to retrieve the transactions (use the current month for most recent transactions format MM)
-          default: current month
         - in: header
           name: Authorization
           type: string
@@ -83,32 +87,30 @@ paths:
         200:
           description: Transaction
           schema:
-            type: array
-            items: 
-              $ref: "#/definitions/Transaction"
+            $ref: "#/definitions/Transaction"
+        401:
+          description: Unauthorized - User not authenticated
+        403:
+          description: Forbidden - User doesn't have permission to perform this action
         404:
           description: Transaction not found
-          
-  /transaction/{id}:
+        500:
+          description: Internal server error
+
     patch:
       tags:
         - Transaction
       summary: Modify an existing transaction (selectively)
       parameters:
-        - in: path
-          name: id
-          type: string
-          required: true
-          description: Transaction identifier
-        - in: body
-          name: body
-          schema:
-            $ref: "#/definitions/PatchTransaction"
-          required: true
         - in: header
           name: Authorization
           type: string
           description: JWT token for authentication
+          required: true
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/PatchTransaction"
           required: true
       responses:
         200:
@@ -134,19 +136,20 @@ paths:
           type: string
           description: JWT token for authentication
           required: true
-        - in: path
-          name: id
-          type: string
-          required: true
-          description: Transaction identifier to be deleted
       responses:
         200:
           description: Transaction information deleted successfully
+        401:
+          description: Unauthorized - User not authenticated
+        403:
+          description: Forbidden - User doesn't have permission to perform this action
         404:
           description: Transaction not found
+        500:
+          description: Internal server error
 
 definitions:
-  TransactionSummary:
+  Transactions:
     type: object
     properties:
       accountType:
